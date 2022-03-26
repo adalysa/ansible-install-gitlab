@@ -1,0 +1,22 @@
+- name: Playbook
+  hosts: all
+  become: yes
+  tasks:
+      - name: Install dependencies
+        dnf:
+          state: present
+          name:
+            - policycoreutils-python3
+            - perl
+      - name: Install postfix
+        dnf:
+          state: present
+          name:
+            - postfix
+      - name: Enable and start postfix
+        service:
+          name: postfix
+          enabled: yes
+          state: started
+      - name: Add Gitlab Repo & Install
+        shell: curl -sL https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh | sudo bash
